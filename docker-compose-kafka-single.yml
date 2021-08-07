@@ -1,0 +1,47 @@
+#yaml kafka cluster配置文件
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: com-zookeeper
+    ports:
+      - "2182:2181"
+    
+  kafka01:
+    image: wurstmeister/kafka
+    container_name: com-kafka01
+    ports:
+      - "9092:9092"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.86.12.127:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+  
+  kafka02:
+    image: wurstmeister/kafka
+    container_name: com-kafka02
+    ports:
+      - "9093:9093"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.86.12.127:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
+
+  kafka03:
+    image: wurstmeister/kafka
+    container_name: com-kafka03
+    ports:
+      - "9094:9094"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.86.12.127:9094
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
